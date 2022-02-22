@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "appointment.openingtime",
+    "type": "java.time.LocalTime",
+    "description": "The time appointments can be scheduled from each day"
+  },  
+  {
+    "name": "appointment.closingtime",
+    "type": "java.time.LocalTime",
+    "description": "The time appointments can be scheduled until each day'"
+  },
+  {
+    "name": "appointment.daysopen",
+    "type": "java.lang.String",
+    "description": "The days the surgery is open for appointments"
+  }
+]}
