@@ -279,7 +279,7 @@ public class PatientService implements IUserService {
 	 */
 	public void addPatientPrescription(String userId, String prescription, String doctorId, LocalDate prescriptionDate) {
 		Patient patient;
-		PatientPrescription patPrescription = new PatientPrescription(userId, prescription, doctorId, prescriptionDate);
+		PatientPrescription patPrescription = new PatientPrescription(userId, prescription, doctorId.substring(0, 5), prescriptionDate);
 		
 		if(repo.existsById(userId)) {
 			patient = repo.getById(userId);

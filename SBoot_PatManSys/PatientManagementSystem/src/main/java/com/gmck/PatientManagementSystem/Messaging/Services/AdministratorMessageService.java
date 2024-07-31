@@ -59,6 +59,7 @@ public class AdministratorMessageService implements IMessageService, ICreateMess
 	public void deleteMessage(Long messageId) {
 		if(adminMessRepo.existsById(messageId)) {
 			adminMessRepo.deleteById(messageId);
+			
 		}else {
 			ErrorUpdate.getInstance().updateObserver("Couldn't delete message");
 		}

@@ -387,7 +387,7 @@ public class SecretaryController implements IController, IErrorUpdateObserver, I
             			tempUser.getAge(), defaultAddress, defaultAddress, defaultAddress, defaultPostcode, tempUser.getGender());
             	
             	tempUserService.deleteUser(userId);
-            	
+            	            	
                 setDeleteCombo();
                 setCreationRequests();
                 setAppointmentPatientIDs();
@@ -414,7 +414,7 @@ public class SecretaryController implements IController, IErrorUpdateObserver, I
              try{   
             	 tempUserService.deleteUser(view.getCreationSelectedValue().substring(0, 5));
                  setCreationRequests();
-             
+                              
              } catch(NullPointerException ex){
                  view.displayMessage("No user selected");
                  ex.printStackTrace();
@@ -439,7 +439,7 @@ public class SecretaryController implements IController, IErrorUpdateObserver, I
             	
                 setDeleteCombo();
                 setAppointmentPatientIDs();
-                
+                                
             }catch(NullPointerException ex){
                 view.displayMessage("No user selected");
             }
@@ -589,6 +589,8 @@ public class SecretaryController implements IController, IErrorUpdateObserver, I
 	            if(view.getMedicineQuantity() != 0){
 	            	medService.orderMedicine(view.getSelectedMedName().toString(), view.getMedicineQuantity());
 	                setMedicinesTable();
+	                
+	                view.displayMessage("Medicine ordered");
 	            }else{
 	                view.displayMessage("Please enter a medicine quantity");
 	            }
@@ -614,6 +616,8 @@ public class SecretaryController implements IController, IErrorUpdateObserver, I
             try{
             	medService.removeMedicine(view.getSelectedMedName().toString());
                 setMedicinesTable();
+                
+                view.displayMessage("Medicine deleted");
                 
             }catch(NullPointerException ex){
                 view.displayMessage("Select a medicine");
@@ -643,10 +647,12 @@ public class SecretaryController implements IController, IErrorUpdateObserver, I
                     medicine = medService.getMedicine(view.getSelectedMedName().toString());
                     
                     String medicineName = medService.getMedicine(view.getSelectedMedName().toString()).getMedName();
-                    medService.prescribeMedicine(view.getPrescriptionPatientID(), loggedInUserId, medicineName, view.getMedicineQuantity());
+                    medService.prescribeMedicine(view.getPrescriptionPatientID(), view.getPrescriptionDoctorID().substring(0, 5),  medicineName, view.getMedicineQuantity());
                     
                     notifyPatient(medicine);
                     setMedicinesTable();
+                    
+                    view.displayMessage("Medicine given to patient");
                 }else{
                     view.displayMessage("Please enter a medicine quantity");
                 }

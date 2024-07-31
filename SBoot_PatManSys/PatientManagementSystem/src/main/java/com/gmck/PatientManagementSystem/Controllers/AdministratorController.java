@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.UIManager;
+import javax.validation.ConstraintViolationException;
 import javax.validation.constraints.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,6 +102,7 @@ public class AdministratorController implements IController, IErrorUpdateObserve
       
 	@Override
     public void addButtonHandler() {
+		view.addDeleteMessageButtonHandler(new DeleteMessageButtonListener());
         view.addCreateUserButtonHandler(new CreateUserButtonListener());
         view.addRemoveDoctorButtonHandler(new DeleteDoctorButtonListener());
         view.addRemoveSecButtonHandler(new DeleteSecretaryButtonListener());
@@ -218,7 +220,7 @@ public class AdministratorController implements IController, IErrorUpdateObserve
         	try{
             	adminMessageService.deleteMessage(Long.valueOf(view.getMessageToDelete()));
                 setUserMessages();
-            
+                            
             }catch(NullPointerException ex){
                 view.displayMessage("Please select a message to delete");
             }catch(NumberFormatException ex) {
@@ -246,6 +248,8 @@ public class AdministratorController implements IController, IErrorUpdateObserve
 	            
 	        }catch(NullPointerException ex){
 	            view.displayMessage("No user selected");
+	        }catch(ConstraintViolationException ex) {
+	        	view.displayMessage("Must have at least 1 doctor");
 	        }
 	    }                  
     }
@@ -267,6 +271,8 @@ public class AdministratorController implements IController, IErrorUpdateObserve
 	            
 	        }catch(NullPointerException ex){
 	            view.displayMessage("No user selected");
+	        }catch(ConstraintViolationException ex) {
+	        	view.displayMessage("Must have at least 1 secretary");
 	        }
         }
     }
@@ -288,6 +294,8 @@ public class AdministratorController implements IController, IErrorUpdateObserve
 	            
 	        }catch(NullPointerException ex){
 	            view.displayMessage("No user selected");
+	        }catch(ConstraintViolationException ex) {
+	        	view.displayMessage("Must have at least 1 admin");
 	        }
         }
     }
@@ -340,6 +348,7 @@ public class AdministratorController implements IController, IErrorUpdateObserve
                 setSecCombo();
                 setAdminCombo();
                 view.clearCreateUserFields();
+                view.displayMessage("User created");
             }else{
                 view.displayMessage("Enter a value in each field");
             }
@@ -376,6 +385,7 @@ public class AdministratorController implements IController, IErrorUpdateObserve
             		LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), message);
             
             view.clearFeedback();
+            view.displayMessage("Feedback sent");
         }       
     }
     

@@ -371,6 +371,8 @@ public class PatientController implements IController, IErrorUpdateObserver, ILo
             
             secMessageService.createMessageToAll(loggedInUserId, senderName,
             		LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), message);
+            
+            view.displayMessage("Termination requested");
         }        
     }
     
@@ -386,10 +388,11 @@ public class PatientController implements IController, IErrorUpdateObserver, ILo
     	
         public void actionPerformed(ActionEvent e) {
             try{
-            startTime = view.getAppointmentTime();
-            appointService.requestAppointment(loggedInUserId, view.getAppointmentDoctor(), 
-                    startTime, startTime.plusMinutes(30), view.getAppointmentDate());
-            
+	            startTime = view.getAppointmentTime();
+	            appointService.requestAppointment(loggedInUserId, view.getAppointmentDoctor(), 
+	                    startTime, startTime.plusMinutes(30), view.getAppointmentDate());
+	            
+	            view.displayMessage("Appointment requested");
             }catch(IllegalArgumentException ex){
                 view.displayMessage("Couldn't create appointment");
             }
@@ -426,6 +429,8 @@ public class PatientController implements IController, IErrorUpdateObserver, ILo
                 //Update UI
                 setRatedDoctors();
                 view.clearFeedback();
+                
+                view.displayMessage(view.getRatedDoctor() + " has been rated successfully");
             
             }catch(NullPointerException ex){
                 view.displayMessage("Select a rating for a doctor");

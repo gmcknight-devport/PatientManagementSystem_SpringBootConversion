@@ -61,7 +61,7 @@ public class MedicineService implements IMedicineService {
 		Medicine medicine = medRepo.getById(medName);
 		String prescription = medName + ". " + medicine.getMedDosage() + ". " + medicine.getCommonUses() + ". " + Integer.toString(quantity) +".";
 
-		patService.addPatientPrescription(patientId, prescription, doctorId, LocalDate.now());
+		patService.addPatientPrescription(patientId, prescription, doctorId.substring(0, 5), LocalDate.now());
 		
 		quantUpdate = medicine.getQuantity() - quantity;
 		medicine.setQuantity(quantUpdate);

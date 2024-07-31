@@ -140,8 +140,12 @@ public class AppointmentService implements IAppointmentService {
 	public void requestAppointment(String patientId, String doctorId, LocalTime startTime, LocalTime endTime,
 			LocalDate appointmentDate) {
 		
-		if(validateAppointment(startTime, endTime, appointmentDate) == true 
-				&& checkFree(patientId, doctorId, appointmentDate, startTime, endTime) == true) {	
+		System.out.println("Validate appointment: " + validateAppointment(startTime, endTime, appointmentDate));
+		System.out.println("Validate pat and doc free: " + checkFree(patientId, doctorId, appointmentDate, startTime, endTime));
+		
+		
+		if(validateAppointment(startTime, endTime, appointmentDate) 
+				&& checkFree(patientId, doctorId, appointmentDate, startTime, endTime)) {	
 			
 			addAppointment(patientId, doctorId, startTime, endTime, appointmentDate, false);
 		}
@@ -161,7 +165,7 @@ public class AppointmentService implements IAppointmentService {
 			LocalDate appointmentDate, boolean approved) {
 		Appointment appointment = new Appointment();
 		appointment.setPatientId(patientId);
-		appointment.setDoctorId(doctorId);
+		appointment.setDoctorId(doctorId.substring(0, 5));
 		appointment.setStartTime(startTime);
 		appointment.setEndTime(endTime);
 		appointment.setAppointmentDate(appointmentDate);
@@ -211,7 +215,7 @@ public class AppointmentService implements IAppointmentService {
 	 */
 	private boolean validateAppointment(LocalTime appointStart, LocalTime appointEnd, LocalDate appointDate) {		
 		boolean isValid = false;
-				
+			
 		if(appointConfig.getDaysOpen().contains(appointDate.getDayOfWeek().toString()) &&
 				(appointDate.isAfter(LocalDate.now()) || appointDate.isEqual(LocalDate.now()))) {
 			
@@ -303,6 +307,7 @@ public class AppointmentService implements IAppointmentService {
 	public void saveAppointment(Appointment appointment) {
 		try {
 			appointmentRepo.save(appointment);
+			ErrorUpdate.getInstance().updateObserver("Successful");
 		}catch(ConstraintViolationException e) {
 			ErrorUpdate.getInstance().updateObserver("Appointment does not conform to validation rules - ensure there aren't "
 					+ "null or incorrectly formatted values");

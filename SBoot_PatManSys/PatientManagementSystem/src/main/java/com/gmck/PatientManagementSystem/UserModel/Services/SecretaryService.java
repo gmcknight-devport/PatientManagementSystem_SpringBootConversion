@@ -75,10 +75,10 @@ public class SecretaryService implements IUserService {
 	
 	@Override
 	public void deleteUser(String userId) {
-		if(repo.existsById(userId)) {
+		if(repo.existsById(userId) && repo.findAll().size() > 1) {
 			repo.deleteById(userId);
 		}else {
-			ErrorUpdate.getInstance().updateObserver("User doesn't exist");
+			ErrorUpdate.getInstance().updateObserver("There must be one secretary user at all times");
 		}
 	}
 

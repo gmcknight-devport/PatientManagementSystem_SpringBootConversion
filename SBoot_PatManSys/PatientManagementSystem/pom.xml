@@ -17,7 +17,14 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
-		
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-autoconfigure</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -66,6 +73,11 @@
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-validation</artifactId>
 		</dependency> 
+		<dependency>
+		    <groupId>com.formdev</groupId>
+		    <artifactId>flatlaf</artifactId>
+		    <version>3.5</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -73,6 +85,13 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+			        <execution>
+			            <configuration>
+			                <mainClass>com.gmck.PatientManagementSystem.PatientManagementSystemApplication</mainClass>
+			            </configuration>
+			        </execution>
+			    </executions>
 			</plugin>
 		</plugins>
 	</build>
